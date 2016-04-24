@@ -44,13 +44,32 @@ Difficulty : Easy
 #include <stdio.h>
 #include <math.h>
 
+void missing_value(struct node*, int, int*);
 struct node{
 	int data;
 	struct node *left;
 	struct node *right;
 };
 
-
+void missing_value(struct node *ptr, int n, int *miss)
+{
+	if (ptr == NULL)
+		return;
+	if (n > 0 && ptr->data<=n)
+		*miss = *miss - ptr->data;
+	else if (n<0 && ptr->data>=n)
+		*miss = *miss + ptr->data;
+	missing_value(ptr->left, n, miss);
+	missing_value(ptr->right, n, miss);
+}
 int get_missing_value(struct node *root,int n){
-    return -1;
+	int sum = 0,temp,miss;
+	if (root == NULL || n == 0)
+		return -1;
+	if (n>0)
+		sum = (n*(n + 1)) / 2;
+	else
+		sum = -(((-n)*((-n) + 1)) / 2);
+	missing_value(root, n, &sum);
+	return sum;
 }

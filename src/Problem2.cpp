@@ -60,6 +60,7 @@ Difficulty : Medium +
 #include <stdlib.h>
 #include <stdio.h>
 
+void check(struct node_dll*, struct node*,int*);
 struct node_dll{
 	int data;
 	struct node_dll *next;
@@ -70,7 +71,23 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	int checker = 1,head_length,bst_length;
+	if (head == NULL || root == NULL)
+		return -1;
+	check(head, root, &checker);
+	return checker;
+}
+void check(struct node_dll *head1, struct node *root1,int *checker)
+{
+	if (root1 == NULL || head1 == NULL || *checker==0)
+		return;
+	check(head1, root1->left,checker);
+	if (head1->data == root1->data)
+		head1 = head1->next;
+	else
+	{
+		*checker = 0;
+	}
+	check(head1, root1->right, checker);
 }
